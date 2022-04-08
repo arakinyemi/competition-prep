@@ -1,28 +1,42 @@
 #include <bits/stdc++.h>
-#define ll long long
+
 using namespace std;
 
 
-void weirdAlgorithm(ll n){
-    cout << n <<" ";
-    if (n == 1){
-        return;
+vector<int>adj[1000];
+vector<bool>visited(1000);
+int n;
+int co = 0;
+void dfs(int s){
+    if(visited[s]) return ;
+    visited[s] = true;
+    for(auto u : adj[s]){
+        dfs(u);
     }
-    if(n % 2 == 0){
-        n /= 2;
-    }
-    else {
-        n = (3 * n) + 1;
-    }
-    weirdAlgorithm(n);
+}
 
-
+int findComponents (){
+    for(int i = 1; i <= n; i++){
+            if(!visited[i]){
+                co++;
+                dfs(i);
+        }
+    }
+    return co;
 }
 int main()
 {
-    ll n;
+    int m, u, v, start, comp;
+    cout<<"Enter the number of nodes: ";
     cin >> n;
-    weirdAlgorithm(n);
-
+    cout<<"Enter the number of edges: ";
+    cin >> m;
+    for(int i = 0; i < m; i++){
+        cout<<"Enter nodes for edge #"<<i+1<<": ";
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+    comp = findComponents();
+    cout<<comp;
     return 0;
 }
